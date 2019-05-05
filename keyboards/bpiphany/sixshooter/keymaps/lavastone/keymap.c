@@ -29,7 +29,11 @@ enum custom_keycodes {
   SS_100 = SAFE_RANGE,
   SS_010,
   SS_001,
-  SS_TMUX_PASTE
+  SS_TMUX_PASTE,
+  SS_TMUX_NEXT_WINDOW,
+  SS_TMUX_PREV_WINDOW,
+  SS_TMUX_NEXT_PANE,
+  SS_TMUX_PREV_PANE,
 };
 
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
@@ -45,9 +49,16 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
    */
   [_AWM_CLIENT] = LAYOUT
   (
-   SS_TMUX_PASTE, RGUI(KC_ENTER), TO(_BL),      \
-   RGUI(KC_K),    RGUI(KC_J),     RGUI(KC_N)
+   RGUI(KC_N), RGUI(KC_ENTER), TO(_TM),         \
+   RGUI(KC_K), RGUI(KC_J),     SS_TMUX_PASTE
   ),
+  /* Tmux: Client controls
+   */
+  [_TM] = LAYOUT
+  (
+   SS_TMUX_NEXT_WINDOW, SS_TMUX_PREV_WINDOW, TO(_BL),       \
+   SS_TMUX_NEXT_PANE,   SS_TMUX_PREV_PANE,   SS_TMUX_PASTE
+   ),
 };
 
 // There are 3 timers for each 
@@ -90,6 +101,18 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
 
     case SS_TMUX_PASTE:
       SEND_STRING(SS_LCTRL("]") "P");
+      return false;
+    case SS_TMUX_NEXT_WINDOW:
+      SEND_STRING(SS_LCTRL("]") "n");
+      return false;
+    case SS_TMUX_PREV_WINDOW:
+      SEND_STRING(SS_LCTRL("]") "p");
+      return false;
+    case SS_TMUX_NEXT_PANE:
+      SEND_STRING(SS_LCTRL("]") "j");
+      return false;
+    case SS_TMUX_PREV_PANE:
+      SEND_STRING(SS_LCTRL("]") "l");
       return false;
     }
   }
@@ -136,6 +159,14 @@ uint32_t layer_state_set_user(uint32_t state) {
     sixshooter_led_3_on();
     sixshooter_led_4_off();
     sixshooter_led_5_on();
+    break;
+  case _TM:
+    sixshooter_led_0_on();
+    sixshooter_led_1_on();
+    sixshooter_led_2_on();
+    sixshooter_led_3_off();
+    sixshooter_led_4_on();
+    sixshooter_led_5_off();
     break;
   }
   return state;
