@@ -36,6 +36,27 @@ enum custom_keycodes {
   SS_TMUX_PREV_PANE,
 };
 
+// Declare tap dances
+enum tap_dances {
+  SSTD_TMUX_PASTE_ENTER = 0,
+};
+
+static void tmux_paste_enter(qk_tap_dance_state_t *state, void *user_data) {
+  if (state->count == 1) {
+    SEND_STRING(SS_LCTRL("]") "P");
+    reset_tap_dance(state);
+  }
+  else if (state->count > 1) {
+    SEND_STRING(SS_LCTRL("]") "P" SS_TAP(X_ENTER));
+    reset_tap_dance(state);
+  }
+}
+
+// Define tap dances
+qk_tap_dance_action_t tap_dance_actions[] = {
+  [SSTD_TMUX_PASTE_ENTER] = ACTION_TAP_DANCE_FN(tmux_paste_enter)
+};
+
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   /* Base Layer: AwesomeWM screen controls
    */
@@ -50,14 +71,14 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   [_AWM_CLIENT] = LAYOUT
   (
    RGUI(KC_N), RGUI(KC_ENTER), TO(_TM),         \
-   RGUI(KC_K), RGUI(KC_J),     SS_TMUX_PASTE
+   RGUI(KC_K), RGUI(KC_J),     TD(SSTD_TMUX_PASTE_ENTER)
   ),
   /* Tmux: Client controls
    */
   [_TM] = LAYOUT
   (
-   SS_TMUX_NEXT_WINDOW, SS_TMUX_PREV_WINDOW, TO(_BL),       \
-   SS_TMUX_NEXT_PANE,   SS_TMUX_PREV_PANE,   SS_TMUX_PASTE
+   SS_TMUX_PREV_WINDOW, SS_TMUX_NEXT_WINDOW, TO(_BL),       \
+   SS_TMUX_NEXT_PANE,   SS_TMUX_PREV_PANE,   TD(SSTD_TMUX_PASTE_ENTER)
    ),
 };
 
