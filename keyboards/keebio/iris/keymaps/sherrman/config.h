@@ -27,5 +27,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #define RGBLIGHT_SAT_STEP 8
 #define RGBLIGHT_VAL_STEP 8
 
-/* Fast typing fix. this causes other problems */
-#define IGNORE_MOD_TAP_INTERRUPT
+#define AUTO_SHIFT_TIMEOUT 95
+#define ONESHOT_TAP_TOGGLE 5  /* Tapping this number of times holds the key until tapped this number of times again. */
+#define ONESHOT_TIMEOUT 5000  /* Time (in ms) before the one shot key is released */
