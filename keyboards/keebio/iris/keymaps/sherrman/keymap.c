@@ -186,7 +186,7 @@ uint32_t layer_state_set_user(uint32_t state) {
         case _QWERTY:
             backlight_enable();
             backlight_level(SFM_BASE_BACKLIGLHT_LEVEL);
-            rgblight_mode_noeeprom(RGBLIGHT_MODE_RAINBOW_SWRIL + 4);
+            rgblight_mode_noeeprom(RGBLIGHT_MODE_RAINBOW_SWIRL + 4);
             break;
         case _LOWER:
             rgblight_mode_noeeprom(RGBLIGHT_MODE_SNAKE + 3);
