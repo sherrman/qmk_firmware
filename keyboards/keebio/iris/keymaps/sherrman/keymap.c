@@ -77,13 +77,13 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   [_LOWER] = LAYOUT(
   //┌────────┬────────┬────────┬────────┬────────┬────────┐                          ┌────────┬────────┬────────┬────────┬────────┬────────┐
   //|        |        |        |        |        |        |                          |        |   7    |    8   |    9   |    *   |    /   |
-     KC_ASUP, KC_ASON, KC_ASRP,  XXXXXXX, XXXXXXX, XXXXXXX,                           XXXXXXX,  KC_P7,   KC_P8,   KC_P9,  KC_PAST, KC_PSLS,
+     XXXXXXX, XXXXXXX, XXXXXXX,  XXXXXXX, XXXXXXX, XXXXXXX,                           XXXXXXX,  KC_P7,   KC_P8,   KC_P9,  KC_PAST, KC_PSLS,
   //├────────┼────────┼────────┼────────┼────────┼────────┤                          ├────────┼────────┼────────┼────────┼────────┼────────┤
   //|        |        |        |        |        |        |                          |        |    4   |    5   |    6   |    +   |    -   |
-     KC_ASDN, KC_ASOFF, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,                           KC_NLCK,  KC_P4,   KC_P5,   KC_P6,  KC_PPLS, KC_PMNS,
+     XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,                           KC_NLCK,  KC_P4,   KC_P5,   KC_P6,  KC_PPLS, KC_PMNS,
   //├────────┼────────┼────────┼────────┼────────┼────────┤                          ├────────┼────────┼────────┼────────┼────────┼────────┤
   //|        |        |        |        |        |        |                          |        |    1   |    2   |    3   |        |        |
-     XXXXXXX, KC_ASTG, XXXXXXX, XXXXXXX, XXXXXXX,  XXXXXXX,                           XXXXXXX,  KC_P1,   KC_P2,   KC_P3,  XXXXXXX, XXXXXXX,
+     XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,  XXXXXXX,                           XXXXXXX,  KC_P1,   KC_P2,   KC_P3,  XXXXXXX, XXXXXXX,
   //├────────┼────────┼────────┼────────┼────────┼────────┼────────┐        ┌────────┼────────┼────────┼────────┼────────┼────────┼────────┤
   //|        |        |        |        |        |        |        |        |        |        |   0    |    .   | ENTER  |   =    |        |
       _______, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, _______,         _______,  XXXXXXX, KC_P0,   KC_PDOT, KC_PENT, KC_PEQL, XXXXXXX,
@@ -96,13 +96,13 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   [_ADJUST] = LAYOUT(
   //┌────────┬────────┬────────┬────────┬────────┬────────┐                          ┌────────┬────────┬────────┬────────┬────────┬────────┐
   //|        |        |        |        |        |        |                          |        |   7    |    8   |    9   |    *   |    /   |
-     KC_ASUP, KC_ASON, KC_ASRP,  XXXXXXX, XXXXXXX, XXXXXXX,                           XXXXXXX,   KC_P7,   KC_P8,   KC_P9,  KC_PAST, KC_PSLS,
+     XXXXXXX, XXXXXXX, XXXXXXX,  XXXXXXX, XXXXXXX, RGB_VAD,                           XXXXXXX,   KC_P7,   KC_P8,   KC_P9,  KC_PAST, KC_PSLS,
   //├────────┼────────┼────────┼────────┼────────┼────────┤                          ├────────┼────────┼────────┼────────┼────────┼────────┤
   //|        |        |        |        |        |        |                          |        |    4   |    5   |    6   |    +   |    -   |
-     KC_ASDN, KC_ASOFF, XXXXXXX, XXXXXXX, XXXXXXX,  XXXXXXX,                          XXXXXXX,   KC_P4,   KC_P5,   KC_P6,  KC_PPLS, KC_PMNS,
+     XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,  RGB_VAI,                           XXXXXXX,   KC_P4,   KC_P5,   KC_P6,  KC_PPLS, KC_PMNS,
   //├────────┼────────┼────────┼────────┼────────┼────────┤                          ├────────┼────────┼────────┼────────┼────────┼────────┤
   //|        |        |        |        |        |        |                          |        |    1   |    2   |    3   |        |        |
-     XXXXXXX, KC_ASTG, XXXXXXX, XXXXXXX, XXXXXXX,  KC_SCRN_LOCK,                       XXXXXXX,  KC_P1,   KC_P2,   KC_P3,  XXXXXXX, XXXXXXX,
+     XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,  KC_SCRN_LOCK,                      XXXXXXX,  KC_P1,   KC_P2,   KC_P3,  XXXXXXX, XXXXXXX,
   //├────────┼────────┼────────┼────────┼────────┼────────┼────────┐        ┌────────┼────────┼────────┼────────┼────────┼────────┼────────┤
   //|        |        |        |        |        |        |        |        |        |        |   0    |    .   | ENTER  |   =    |        |
       _______, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, _______,         _______,  XXXXXXX, KC_P0,   KC_PDOT, KC_PENT, KC_PEQL, XXXXXXX,
