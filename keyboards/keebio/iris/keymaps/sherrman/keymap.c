@@ -42,14 +42,16 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   //|  CTRL  |   A    |   S    |   D    |    F   |    G   |                          |    H   |   J    |   K    |   L    |   :/;  |   "/'  |
      KC_LCTL,  KC_A,    KC_S,    KC_D,    KC_F,    KC_G,                               KC_H,    KC_J,    KC_K,    KC_L,   KC_SCLN, KC_QUOT,
   //├────────┼────────┼────────┼────────┼────────┼────────┼────────┐        ┌────────┼────────┼────────┼────────┼────────┼────────┼────────┤
-  //|        |   Z    |   X    |   C    |    V   |    B   |                 |        |    N   |   M    |   </,  |  >/.   |  ?-/   | SHIFT  |
-      LOWER,   KC_Z,    KC_X,    KC_C,    KC_V,    KC_B,    KC_LGUI,          RAISE,   KC_N,    KC_M,  KC_COMM, KC_DOT,   KC_SLSH, KC_RSFT,
+  //|        |   Z    |   X    |   C    |    V   |    B   |  GUI            |        |    N   |   M    |   </,  |  >/.   |  ?-/   | SHIFT  |
+      LOWER,   KC_Z,    KC_X,    KC_C,    KC_V,    KC_B,    KC_LALT,          RAISE,   KC_N,    KC_M,  KC_COMM, KC_DOT,   KC_SLSH, KC_RSFT,
   //└────────┴────────┴────────┴───┬────┴───┬────┴───┬────┴───┬────┘        └───┬────┴───┬────┴───┬────┴───┬────┴────────┴────────┴────────┘
   //                               |  ALT   | LSHIFT | BKSPACE|                 | SPACE  |  ENTER |  CTRL  |
-                                    KC_LALT, KC_LSFT, KC_BSPC,                   KC_SPC,  KC_ENT,   KC_LCTL
+                                    KC_LGUI, KC_LSFT, KC_BSPC,                   KC_SPC,  KC_ENT,   KC_LCTL
                                 // └────────┴────────┴────────┘                 └────────┴────────┴────────┘
   ),
-
+//Uh the GUI/ALT keys were swapped somehow. I think this is something with boot
+//magic: https://beta.docs.qmk.fm/using-qmk/hardware-features/feature_bootmagic
+//but i can't figure out how to switch it back...
   [_RAISE] = LAYOUT(
   //┌────────┬────────┬────────┬────────┬────────┬────────┐                          ┌────────┬────────┬────────┬────────┬────────┬────────┐
   //|  F12   |   F1   |   F2   |   F3   |    F4  |   F5   |                          |   F6   |   F7   |   F8   |   F9   |   F10  |   F11  |
