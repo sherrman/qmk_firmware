@@ -12,15 +12,28 @@ enum custom_keycodes {
     LOWER,
     RAISE,
     ADJUST,
+    KC_TMUX_PASTE,
+    KC_TMUX_NEXT_WINDOW,
+    KC_TMUX_PREV_WINDOW,
+    KC_TMUX_NEXT_PANE,
+    KC_TMUX_PREV_PANE,
 };
 
-#define KC_SCRN_LOCK LGUI(LCTL(KC_PAUSE)) /* Specific to lavastone setup */
+#define KX_PST KC_TMUX_PASTE
+#define KX_NWIN KC_TMUX_NEXT_WINDOW
+#define KX_PWIN KC_TMUX_PREV_WINDOW
+#define KX_NPNE KC_TMUX_NEXT_PANE
+#define KX_PPNE KC_TMUX_PREV_PANE
+
+#define TMUX_STRING(x) SEND_STRING(SS_LCTRL("]") SS_DELAY(25) x)
+
+#define KC_SCRN_LOCK LGUI(LCTL(KC_PAUSE)) /* Specific to lavastone AwesomeWM setup */
 
 #define SFM_BASE_BACKLIGLHT_LEVEL 1
 #define SFM_ELEVATED_BACKLIGHT_LEVEL 3
 
 // RGB timeout feature
-#define RGB_TIMEOUT 15  // in seconds
+#define RGB_TIMEOUT 900  // in seconds
 #define _LOCAL_RGBLIGHT_MINIMUM 125
 #define _LOCAL_RGBLIGHT_VAL_STEPS 3
 static uint32_t idle_timer = 0;
@@ -78,16 +91,16 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   [_LOWER] = LAYOUT(
   //┌────────┬────────┬────────┬────────┬────────┬────────┐                          ┌────────┬────────┬────────┬────────┬────────┬────────┐
   //|        |        |        |        |        |        |                          |        |   7    |    8   |    9   |    *   |    /   |
-     XXXXXXX, XXXXXXX, XXXXXXX,  XXXXXXX, XXXXXXX, XXXXXXX,                           XXXXXXX,  KC_P7,   KC_P8,   KC_P9,  KC_PAST, KC_PSLS,
+     XXXXXXX, DM_PLY1, DM_PLY2,  XXXXXXX, XXXXXXX, XXXXXXX,                           XXXXXXX,  KC_P7,   KC_P8,   KC_P9,  KC_PAST, KC_PSLS,
   //├────────┼────────┼────────┼────────┼────────┼────────┤                          ├────────┼────────┼────────┼────────┼────────┼────────┤
   //|        |        |        |        |        |        |                          |        |    4   |    5   |    6   |    +   |    -   |
-     XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,                           KC_NLCK,  KC_P4,   KC_P5,   KC_P6,  KC_PPLS, KC_PMNS,
+     DM_RSTP, DM_REC1, DM_REC2, KX_PWIN, KX_NWIN, XXXXXXX,                            KC_NLCK,  KC_P4,   KC_P5,   KC_P6,  KC_PPLS, KC_PMNS,
   //├────────┼────────┼────────┼────────┼────────┼────────┤                          ├────────┼────────┼────────┼────────┼────────┼────────┤
   //|        |        |        |        |        |        |                          |        |    1   |    2   |    3   |        |        |
-     XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,  XXXXXXX,                           XXXXXXX,  KC_P1,   KC_P2,   KC_P3,  XXXXXXX, XXXXXXX,
+     XXXXXXX, XXXXXXX, XXXXXXX, KX_PPNE, KX_NPNE,  XXXXXXX,                           XXXXXXX,  KC_P1,   KC_P2,   KC_P3,  XXXXXXX, XXXXXXX,
   //├────────┼────────┼────────┼────────┼────────┼────────┼────────┐        ┌────────┼────────┼────────┼────────┼────────┼────────┼────────┤
   //|        |        |        |        |        |        |        |        |        |        |   0    |    .   | ENTER  |   =    |        |
-      _______, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, _______,         _______,  XXXXXXX, KC_P0,   KC_PDOT, KC_PENT, KC_PEQL, XXXXXXX,
+      _______, XXXXXXX, XXXXXXX, XXXXXXX, KX_PST,  XXXXXXX, _______,       _______,  XXXXXXX, KC_P0,   KC_PDOT, KC_PENT, KC_PEQL, XXXXXXX,
   //└────────┴────────┴────────┴───┬────┴───┬────┴───┬────┴───┬────┘        └───┬────┴───┬────┴───┬────┴───┬────┴────────┴────────┴────────┘
   //                               |        |        | SPACE  |                 | SPACE  |        | RCTRL  |
                                     _______, KC_CAPS,  KC_SPC,                   _______, _______,  KC_RCTL
@@ -97,10 +110,10 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   [_ADJUST] = LAYOUT(
   //┌────────┬────────┬────────┬────────┬────────┬────────┐                          ┌────────┬────────┬────────┬────────┬────────┬────────┐
   //|        |        |        |        |        |        |                          |        |   7    |    8   |    9   |    *   |    /   |
-     XXXXXXX, XXXXXXX, XXXXXXX,  XXXXXXX, XXXXXXX, RGB_VAD,                           XXXXXXX,   KC_P7,   KC_P8,   KC_P9,  KC_PAST, KC_PSLS,
+     XXXXXXX, XXXXXXX, XXXXXXX,  XXXXXXX, XXXXXXX, XXXXXXX,                           XXXXXXX,   KC_P7,   KC_P8,   KC_P9,  KC_PAST, KC_PSLS,
   //├────────┼────────┼────────┼────────┼────────┼────────┤                          ├────────┼────────┼────────┼────────┼────────┼────────┤
   //|        |        |        |        |        |        |                          |        |    4   |    5   |    6   |    +   |    -   |
-     XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,  RGB_VAI,                           XXXXXXX,   KC_P4,   KC_P5,   KC_P6,  KC_PPLS, KC_PMNS,
+     XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,  XXXXXXX,                           XXXXXXX,   KC_P4,   KC_P5,   KC_P6,  KC_PPLS, KC_PMNS,
   //├────────┼────────┼────────┼────────┼────────┼────────┤                          ├────────┼────────┼────────┼────────┼────────┼────────┤
   //|        |        |        |        |        |        |                          |        |    1   |    2   |    3   |        |        |
      XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,  KC_SCRN_LOCK,                      XXXXXXX,  KC_P1,   KC_P2,   KC_P3,  XXXXXXX, XXXXXXX,
@@ -174,6 +187,33 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
             }
             return false;
             break;
+
+            /* TMUX helpers */
+        case KC_TMUX_PASTE:
+            if (record->event.pressed) {
+                TMUX_STRING("P");
+            }
+            return false;
+        case KC_TMUX_NEXT_WINDOW:
+            if (record->event.pressed) {
+                TMUX_STRING("n");
+            }
+            return false;
+        case KC_TMUX_PREV_WINDOW:
+            if (record->event.pressed) {
+                TMUX_STRING("p");
+            }
+            return false;
+        case KC_TMUX_NEXT_PANE:
+            if (record->event.pressed) {
+                TMUX_STRING("j");
+            }
+            return false;
+        case KC_TMUX_PREV_PANE:
+            if (record->event.pressed) {
+                TMUX_STRING("l");
+            }
+            return false;
     }
     return true;
 }
@@ -217,7 +257,7 @@ void matrix_scan_user(void) {
         idle_timer = timer_read32();
     }
 
-    if (!idling && timer_elapsed32(idle_timer) >= RGB_TIMEOUT * 1000) {
+    if (!idling && timer_elapsed32(idle_timer) >= (RGB_TIMEOUT * (uint32_t)1000)) {
         idling = true;
     }
 
@@ -238,4 +278,9 @@ void rgblight_increase_to_val(uint8_t val) {
         if (rgblight_get_val() >= val) return;
         rgblight_increase_val_noeeprom();
     }
+}
+
+void dynamic_macro_record_start_user(void) {
+    rgblight_mode_noeeprom(RGBLIGHT_MODE_STATIC_LIGHT);
+    rgblight_sethsv_noeeprom(HSV_PINK);
 }
