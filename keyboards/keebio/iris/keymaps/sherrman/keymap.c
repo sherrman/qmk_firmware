@@ -21,9 +21,10 @@ enum custom_keycodes {
 
 // RGB timeout feature
 #define RGB_TIMEOUT 15  // in seconds
-static uint32_t idle_timer    = 0;
-static uint8_t  old_rgb_level = -1;
-static bool     idling        = false;
+#define _LOCAL_RGBLIGHT_MINIMUM 125
+#define _LOCAL_RGBLIGHT_VAL_STEPS 3
+static uint32_t idle_timer = 0;
+static bool     idling     = false;
 
 void rgblight_increase_to_val(uint8_t val);
 void rgblight_lower_to_val(uint8_t val);
@@ -124,14 +125,10 @@ void keyboard_post_init_user(void) {
 
 bool process_record_user(uint16_t keycode, keyrecord_t *record) {
     if (record->event.pressed) {
-        if (old_rgb_level == -1) {
-            old_rgb_level = rgblight_get_val();
-        }
         if (idling) {
             idling = false;
         } else {
-            // TODO this is probably not very efficient
-            rgblight_increase_to_val(old_rgb_level);
+            rgblight_increase_to_val(RGBLIGHT_LIMIT_VAL);
         }
         idle_timer = timer_read32();
     }
@@ -221,27 +218,24 @@ void matrix_scan_user(void) {
     }
 
     if (!idling && timer_elapsed32(idle_timer) >= RGB_TIMEOUT * 1000) {
-        idling        = true;
-        old_rgb_level = rgblight_get_val();
+        idling = true;
     }
 
     if (idling) {
-        rgblight_lower_to_val(old_rgb_level / 2);
+        rgblight_lower_to_val(_LOCAL_RGBLIGHT_MINIMUM);
     }
 }
 
-const uint8_t max_val_iteration = 5;
-// TODO make this so that that it happens over time
 void rgblight_lower_to_val(uint8_t val) {
-    /* uint8_t it = 0; */
-    /* while (rgblight_get_val() >= val && it++ < max_val_iteration) { */
-    /*     rgblight_decrease_val_noeeprom(); */
-    /* } */
+    for (uint8_t i = 0; i < _LOCAL_RGBLIGHT_VAL_STEPS; i++) {
+        if (rgblight_get_val() <= val) return;
+        rgblight_decrease_val_noeeprom();
+    }
 }
 
 void rgblight_increase_to_val(uint8_t val) {
-    /* uint8_t it = 0; */
-    /* while (rgblight_get_val() >= val && it++ < max_val_iteration) { */
-    /*     rgblight_increase_val_noeeprom(); */
-    /* } */
+    for (uint8_t i = 0; i < _LOCAL_RGBLIGHT_VAL_STEPS; i++) {
+        if (rgblight_get_val() >= val) return;
+        rgblight_increase_val_noeeprom();
+    }
 }
