@@ -33,11 +33,13 @@ enum custom_keycodes {
 #define SFM_ELEVATED_BACKLIGHT_LEVEL 3
 
 // RGB timeout feature
-#define RGB_TIMEOUT 900  // in seconds
-#define _LOCAL_RGBLIGHT_MINIMUM 125
-#define _LOCAL_RGBLIGHT_VAL_STEPS 3
-static uint32_t idle_timer = 0;
-static bool     idling     = false;
+#define RGB_TIMEOUT 300                      /* in seconds */
+#define _LOCAL_RGBLIGHT_MINIMUM 75           /* see RGBLIGHT_LIMIT_VAL (255) */
+#define _LOCAL_RGBLIGHT_TRANSITION_TIME 1750 /* ms */
+#define _LOCAL_RGBLIGHT_TRANSITION_INTERVAL _LOCAL_RGBLIGHT_TRANSITION_TIME / ((RGBLIGHT_LIMIT_VAL - _LOCAL_RGBLIGHT_MINIMUM) / RGBLIGHT_VAL_STEP)
+static uint32_t idle_timer          = 0;
+static bool     idling              = false;
+static uint16_t rgblight_transit_ms = 0;
 
 void rgblight_increase_to_val(uint8_t val);
 void rgblight_lower_to_val(uint8_t val);
@@ -121,7 +123,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   //|        |        |        |        |        |        |        |        |        |        |   0    |    .   | ENTER  |   =    |        |
       _______, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, _______,         _______,  XXXXXXX, KC_P0,   KC_PDOT, KC_PENT, KC_PEQL, XXXXXXX,
   //└────────┴────────┴────────┴───┬────┴───┬────┴───┬────┴───┬────┘        └───┬────┴───┬────┴───┬────┴───┬────┴────────┴────────┴────────┘
-  //                               |  CTRL  | COMMAND| BKSPACE|                 | SPACE  | ENTER  | SHIFT  |
+  //                               |  ALT   | LSHIFT | BKSPACE|                 | SPACE  | ENTER  | SHIFT  |
                                     _______, _______, _______,                   _______, _______, KC_RSFT
                                 // └────────┴────────┴────────┘                 └────────┴────────┴────────┘
   ),
@@ -139,9 +141,8 @@ void keyboard_post_init_user(void) {
 bool process_record_user(uint16_t keycode, keyrecord_t *record) {
     if (record->event.pressed) {
         if (idling) {
-            idling = false;
-        } else {
-            rgblight_increase_to_val(RGBLIGHT_LIMIT_VAL);
+            idling              = false;
+            rgblight_transit_ms = timer_read();
         }
         idle_timer = timer_read32();
     }
@@ -258,25 +259,41 @@ void matrix_scan_user(void) {
     }
 
     if (!idling && timer_elapsed32(idle_timer) >= (RGB_TIMEOUT * (uint32_t)1000)) {
-        idling = true;
+        idling              = true;
+        rgblight_transit_ms = timer_read();
     }
 
     if (idling) {
         rgblight_lower_to_val(_LOCAL_RGBLIGHT_MINIMUM);
+    } else {
+        rgblight_increase_to_val(RGBLIGHT_LIMIT_VAL);
     }
 }
 
 void rgblight_lower_to_val(uint8_t val) {
-    for (uint8_t i = 0; i < _LOCAL_RGBLIGHT_VAL_STEPS; i++) {
-        if (rgblight_get_val() <= val) return;
+    if (rgblight_transit_ms == 0) return;
+
+    if (rgblight_get_val() <= val) {
+        rgblight_transit_ms = 0;
+        return;
+    }
+    if (timer_elapsed(rgblight_transit_ms) > _LOCAL_RGBLIGHT_TRANSITION_INTERVAL) {
         rgblight_decrease_val_noeeprom();
+        rgblight_transit_ms = timer_read();
     }
 }
 
 void rgblight_increase_to_val(uint8_t val) {
-    for (uint8_t i = 0; i < _LOCAL_RGBLIGHT_VAL_STEPS; i++) {
-        if (rgblight_get_val() >= val) return;
+    if (rgblight_transit_ms == 0) return;
+
+    if (rgblight_get_val() >= val) {
+        rgblight_transit_ms = 0;
+        return;
+    }
+
+    if (timer_elapsed(rgblight_transit_ms) > _LOCAL_RGBLIGHT_TRANSITION_INTERVAL) {
         rgblight_increase_val_noeeprom();
+        rgblight_transit_ms = timer_read();
     }
 }
 
