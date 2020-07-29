@@ -259,6 +259,7 @@ void matrix_scan_user(void) {
     }
 
     if (!idling && timer_elapsed32(idle_timer) >= (RGB_TIMEOUT * (uint32_t)1000)) {
+        backlight_disable();
         idling              = true;
         rgblight_transit_ms = timer_read();
     }
@@ -267,6 +268,10 @@ void matrix_scan_user(void) {
         rgblight_lower_to_val(_LOCAL_RGBLIGHT_MINIMUM);
     } else {
         rgblight_increase_to_val(RGBLIGHT_LIMIT_VAL);
+
+        if (!is_backlight_enabled()) {
+            backlight_enable();
+        }
     }
 }
 
