@@ -77,8 +77,8 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   //|  CTRL  |   +/=  |    $   |   [    |   ]    |   +/=  |                          |   ALT  |    ←   |   ↓    |    →   |  || >  |  VOLDN |
      _______, KC_EQL,   KC_DLR, KC_LBRC, KC_RBRC,  KC_EQL,                            KC_RALT, KC_LEFT,KC_DOWN, KC_RGHT, KC_MPLY,  KC__VOLDOWN,
   //├────────┼────────┼────────┼────────┼────────┼────────┼────────┐        ┌────────┼────────┼────────┼────────┼────────┼────────┼────────┤
-  //|        |    %   |    ^   |   (    |   )    |    ~   |        |        |        |    &   |   INS  |  HOME  |  END   |  MUTE  |  SHIFT |
-     _______, KC_PERC, KC_CIRC, KC_LPRN, KC_RPRN, KC_TILD,  _______,          _______, KC_AMPR, KC_INS, KC_HOME,  KC_END, KC__MUTE, _______,
+  //|        |    %   |    ^   |   (    |   )    |    ~   |        |        |        |   GUI  |   INS  |  HOME  |  END   |  MUTE  |  SHIFT |
+     _______, KC_PERC, KC_CIRC, KC_LPRN, KC_RPRN, KC_TILD,  _______,          _______,KC_RGUI, KC_INS, KC_HOME,  KC_END, KC__MUTE, _______,
   //└────────┴────────┴────────┴───┬────┴───┬────┴───┬────┴───┬────┘        └───┬────┴───┬────┴───┬────┴───┬────┴────────┴────────┴────────┘
   //                               |        |        |   DEL  |                 | SPACE  |        |  CTRL  |
                                     _______, _______,  KC_DEL,                   _______, _______,  KC_RCTL
